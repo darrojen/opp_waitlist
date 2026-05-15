@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+/* Class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg:        #f9f7f4;
+  --bg-nav:    rgba(249, 247, 244, 0.88);
+  --surface:   #ffffff;
+  --surface2:  #f4f1ec;
+  --border:    #e8e3dc;
+  --text:      #1a1612;
+  --muted:     #6b6460;
+  --accent:    #e97f3b;
+  --font-lora: "Lora", Georgia, serif;
+  --blob-1:    rgba(233, 127, 59, 0.11);
+  --blob-2:    rgba(155, 106, 247, 0.05);
+}
+
+.dark {
+  --bg:       #1a1612;
+  --bg-nav:   rgba(26, 22, 18, 0.88);
+  --surface:  #211d19;
+  --surface2: #2a2520;
+  --border:   #332e28;
+  --text:     #f0ece6;
+  --muted:    #9c9188;
+  --accent:   #e97f3b;
+  --blob-1:   rgba(233, 127, 59, 0.07);
+  --blob-2:   rgba(155, 106, 247, 0.04);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-lora: var(--font-lora);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Theme transition — cross-fade via View Transitions API ── */
+::view-transition-old(root) {
+  animation: 0.4s ease-in-out theme-fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 0.35s ease-in theme-fade-in;
+}
+
+@keyframes theme-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes theme-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:not([class*="hover"]):not([class*="transition"]):hover {
+  opacity: 0.82;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0) }
+  to   { transform: translateX(-50%) }
+}
+
+.supporter-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.supporter-card:hover {
+  border-color: rgba(233, 127, 59, 0.38) !important;
+  box-shadow: 0 0 0 1px rgba(233, 127, 59, 0.14), 0 4px 24px rgba(233, 127, 59, 0.07);
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.supporter-row {
+  display: flex;
+  width: max-content;
+  animation: marquee 55s linear infinite;
+}
+
+.supporter-row:hover {
+  animation-play-state: paused;
+}
+
+.supporter-row-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 55s linear infinite;
+}
+
+.supporter-row-reverse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%) }
+  to   { transform: translateX(0) }
+}
