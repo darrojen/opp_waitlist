@@ -586,7 +586,9 @@ export default function Home() {
       document.cookie = `opphex_ref=${refCode}; path=/; max-age=300; SameSite=Lax`;
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        redirectTo: `http://localhost:3000/auth/callback`,
+      },
     });
   }, [refCode]);
 
