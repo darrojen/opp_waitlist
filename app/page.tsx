@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUpRight, CheckCircle, Moon, Sun } from '@phosphor-icons/react';
+import { ArrowUpRight, CheckCircle, Megaphone, Moon, Sun } from '@phosphor-icons/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { FAQ } from '@/components/FAQ';
@@ -24,7 +24,8 @@ const WORDS = [
   'Partnerships',
   'Opportunities',
 ];
-const LAUNCH_DATE = new Date('2026-08-07T00:00:00');
+// const LAUNCH_DATE = new Date('2026-08-07T00:00:00');
+const LAUNCH_DATE = new Date('2026-11-21T00:00:00');
 const BASE_COUNT = 0;
 
 const PILLS = [
@@ -611,6 +612,14 @@ export default function Home() {
     { v: pad(cd.m), label: 'Min' },
     { v: pad(cd.s), label: 'Sec' },
   ];
+const BANNER_ANNOUNCED_AT = new Date('2026-08-04T00:00:00');
+const BANNER_DURATION_MS = 3 * 24 * 60 * 60 * 1000; // 3 days
+  const [showBanner, setShowBanner] = useState(false);
+
+useEffect(() => {
+  const expiresAt = BANNER_ANNOUNCED_AT.getTime() + BANNER_DURATION_MS;
+  setShowBanner(Date.now() < expiresAt);
+}, []);
 
   return (
     <div
@@ -626,6 +635,44 @@ export default function Home() {
       )}
       <NotificationToast userReferralCode={modalUser?.referral_code ?? null} />
 
+{/* ── Launch Update Banner ── */}
+{showBanner && (
+  <div
+    className="relative z-40 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-4 py-2.5 text-center"
+    style={{
+      background: 'rgba(239,68,68,0.08)',
+      borderBottom: '1px solid rgba(239,68,68,0.25)',
+    }}
+  >
+    <div className="flex items-center gap-1.5">
+      <Megaphone
+        size={13}
+        weight="fill"
+        style={{ color: '#ef4444', flexShrink: 0 }}
+      />
+      <p
+        className="text-[12px] sm:text-[13px] font-medium"
+        style={{ color: '#ef4444' }}
+      >
+        Launch extended till <span className="font-bold">November 21</span>
+      </p>
+    </div>
+
+    <span
+      className="hidden sm:inline mx-0.5 opacity-40"
+      style={{ color: '#ef4444' }}
+    >
+      ·
+    </span>
+
+    <span
+      className="text-[11px] sm:text-[13px] font-bold tabular-nums"
+      style={{ color: '#ef4444' }}
+    >
+      {cd.d}d {pad(cd.h)}h {pad(cd.m)}m
+    </span>
+  </div>
+)}
       {/* Gradient orbs — colors driven by CSS variables, theme-aware */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div
@@ -810,69 +857,110 @@ export default function Home() {
             </div>
             <p className="text-[13px]" style={{ color: 'var(--muted)' }}>
               <span className="font-bold" style={{ color: 'var(--accent)' }}>
-                {count < 1000 ? '500' : count.toLocaleString()}+
+                {count < 1000 ? '' : count.toLocaleString()}
               </span>{' '}
-              people already joined
+              people joined
             </p>
           </div>
 
           {/* ── Countdown — card style ── */}
-          <div className="mb-9 flex flex-col items-center gap-3">
-            <p
-              className="text-[10px] uppercase tracking-[0.22em] font-bold"
-              style={{ color: 'var(--muted)' }}
-            >
-              Launching Aug 7, 2026
-            </p>
-            <div className="flex items-center gap-2 sm:gap-3">
-              {units.map((u, i) => (
-                <div key={i} className="flex items-center gap-2 sm:gap-3">
-                  {i > 0 && (
-                    <span
-                      className="font-black select-none -mt-5"
-                      style={{
-                        fontSize: '1.5rem',
-                        color: 'var(--muted)',
-                        opacity: 0.25,
-                      }}
-                    >
-                      :
-                    </span>
-                  )}
-                  <div
-                    className="flex flex-col items-center gap-1.5 sm:gap-2 rounded-2xl"
-                    style={{
-                      background: 'var(--surface)',
-                      border: '1px solid var(--border)',
-                      padding: 'clamp(10px,2vw,14px) clamp(12px,3vw,18px)',
-                      minWidth: 'clamp(58px,14vw,76px)',
-                    }}
-                  >
-                    <span
-                      className="leading-none font-black"
-                      style={{
-                        fontSize: 'clamp(1.6rem,5vw,2.4rem)',
-                        color: 'var(--text)',
-                        fontVariantNumeric: 'tabular-nums',
-                      }}
-                    >
-                      <RollingNumber value={u.v} />
-                    </span>
-                    <span
-                      className="font-bold uppercase"
-                      style={{
-                        fontSize: 'clamp(7px,1.5vw,9px)',
-                        letterSpacing: '0.2em',
-                        color: 'var(--muted)',
-                      }}
-                    >
-                      {u.label}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+  <div className="mb-9 flex flex-col items-center gap-3">
+  <p
+    className="text-[10px] uppercase tracking-[0.22em] font-bold"
+    style={{ color: 'var(--muted)' }}
+  >
+    Launching Nov 21, 2026
+  </p>
+
+  <div className="relative flex items-center gap-2 sm:gap-3">
+    {units.map((u, i) => (
+      <div key={i} className="flex items-center gap-2 sm:gap-3">
+        {i > 0 && (
+          <span
+            className="font-black select-none -mt-5"
+            style={{
+              fontSize: '1.5rem',
+              color: 'var(--muted)',
+              opacity: 0.25,
+            }}
+          >
+            :
+          </span>
+        )}
+        <div
+          className="flex flex-col items-center gap-1.5 sm:gap-2 rounded-2xl"
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            padding: 'clamp(10px,2vw,14px) clamp(12px,3vw,18px)',
+            minWidth: 'clamp(58px,14vw,76px)',
+          }}
+        >
+          <span
+            className="leading-none font-black"
+            style={{
+              fontSize: 'clamp(1.6rem,5vw,2.4rem)',
+              color: 'var(--text)',
+              fontVariantNumeric: 'tabular-nums',
+            }}
+          >
+            <RollingNumber value={u.v} />
+          </span>
+          <span
+            className="font-bold uppercase"
+            style={{
+              fontSize: 'clamp(7px,1.5vw,9px)',
+              letterSpacing: '0.2em',
+              color: 'var(--muted)',
+            }}
+          >
+            {u.label}
+          </span>
+        </div>
+      </div>
+    ))}
+
+    {/* Badge — hugs the top-right corner of the countdown row itself */}
+<div
+  className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full absolute -top-3 left-full ml-3"
+  style={{
+    border: '1px solid rgba(31,222,60,0.3)',
+    background: 'rgba(31,222,60,0.07)',
+  }}
+>
+  <span
+    className="w-[5px] h-[5px] rounded-full"
+    style={{ background: '#1fde3c' }}
+  />
+  <span
+    className="text-[10px] font-semibold tracking-wider uppercase whitespace-nowrap"
+    style={{ color: '#1fde3c' }}
+  >
+    Extended
+  </span>
+</div>
+  </div>
+
+  {/* Same badge, inline, for anything below lg */}
+  <div
+    className="flex lg:hidden items-center gap-2 px-3 py-1.5 rounded-full"
+    style={{
+      border: '1px solid rgba(31,222,60,0.3)',
+      background: 'rgba(31,222,60,0.07)',
+    }}
+  >
+    <span
+      className="w-[5px] h-[5px] rounded-full"
+      style={{ background: '#1fde3c' }}
+    />
+    <span
+      className="text-[10px] font-semibold tracking-wider uppercase"
+      style={{ color: '#1fde3c' }}
+    >
+      Extended
+    </span>
+  </div>
+</div>
 
           {/* Headline */}
           <h1

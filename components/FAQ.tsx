@@ -12,7 +12,8 @@ const FAQS = [
   },
   {
     q: "When will Opphex launch?",
-    a: "We're targeting August 7, 2026 for our public launch. Join the waitlist now to get notified first and unlock early access features before everyone else.",
+    a: "We've extended our timeline and are now targeting November 21, 2026 for our public launch — a bit later than originally planned, giving us time to line up more opportunities and polish the experience. Join the waitlist now to get notified first and unlock early access features before everyone else.",
+    isNew: true,
   },
   {
     q: "How does the waitlist work?",
@@ -59,7 +60,7 @@ export function FAQ() {
             className="rounded-2xl overflow-hidden"
             style={{ border: "1px solid var(--border)", background: "var(--surface)" }}
           >
-            <button
+            {/* <button
               onClick={() => setOpen(open === i ? null : i)}
               className="w-full flex items-center justify-between px-6 py-4 text-left"
               style={{ color: "var(--text)" }}
@@ -78,7 +79,41 @@ export function FAQ() {
                   : <Plus size={12} weight="bold" />
                 }
               </div>
-            </button>
+            </button> */}
+            <button
+  onClick={() => setOpen(open === i ? null : i)}
+  className="w-full flex items-center justify-between px-6 py-4 text-left"
+  style={{ color: "var(--text)" }}
+>
+  <span className="text-[15px] font-semibold pr-4 flex items-center gap-2 flex-wrap">
+    {item.q}
+    {item.isNew && (
+      <span
+        className="text-[9px] font-bold px-2 py-0.5 rounded-full tracking-wider uppercase"
+        style={{
+          background: "rgba(239,68,68,0.1)",
+          color: "#ef4444",
+          border: "1px solid rgba(239,68,68,0.25)",
+        }}
+      >
+        New
+      </span>
+    )}
+  </span>
+  <div
+    className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200"
+    style={{
+      background: open === i ? "var(--accent)" : "var(--surface2)",
+      border: "1px solid var(--border)",
+      color: open === i ? "#fff" : "var(--muted)",
+    }}
+  >
+    {open === i
+      ? <Minus size={12} weight="bold" />
+      : <Plus size={12} weight="bold" />
+    }
+  </div>
+</button>
 
             <AnimatePresence initial={false}>
               {open === i && (
